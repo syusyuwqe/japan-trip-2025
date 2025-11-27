@@ -87,6 +87,7 @@
         const { useState, useEffect, useRef, useMemo } = React;
 
         // --- GEMINI API SETUP ---
+        // FIX: Define getApiKey correctly in the global scope
         const getApiKey = () => localStorage.getItem('gemini_api_key') || "";
 
         const callGemini = async (prompt) => {
@@ -302,7 +303,7 @@
         const App = () => {
             const [activeTab, setActiveTab] = useState('home');
             
-            // --- DATA (Updated V23 with user provided data) ---
+            // --- DATA (Updated V23) ---
             const [itinerary, setItinerary] = useState(() => JSON.parse(localStorage.getItem('itinerary_v23')) || {
                 "11/28":[{"id":1,"time":"14:40","place":"搭乘班機 IT 212","desc":"時間:1440-1755。\n記得不要延誤班機喔~","image":"https://static.tigerairtw.com/www/events/TTW10anniversary/images/kv_airplane.png","owner":"common","mapUrl":"https://maps.app.goo.gl/w7cmbhnue9GKehcx6"},{"id":2,"time":"18:30","place":"大阪 Check in","desc":"預計出關時間→ 18:30，抵達市區 (19:30)。","image":"https://www.bring-you.info/imgs/2017/12/shin-osaka-40.jpg","owner":"common","mapUrl":"https://maps.app.goo.gl/EbFzvx4KZZv8CtVW9"},{"id":3,"time":"21:00","place":"晚餐 焼肉 麓の宮","desc":"必吃燒肉！","image":"https://tw.tabiiro.travel/lpimg/gourmet/314114/main/img5.jpg","owner":"common","mapUrl":"https://maps.app.goo.gl/WhhLHMjSBLjfDkX9A"},{"id":4,"time":"22:30","place":"心齋橋逛街","desc":"藥妝、零食採買。","image":"https://cdn.zekkei-japan.jp/images/areas/8bb3598e86006c8a2a283f36e14a0650.jpg","owner":"common","mapUrl":"https://maps.app.goo.gl/L83oHjpVYEQrrs3H6"}],
                 "11/29":[{"id":11,"time":"09:00","place":"下鴨神社","desc":"# 【世界遺產・京都古老神域】","image":"https://letsgokyoto.com/wp-content/uploads/2023/09/%E6%B2%B3%E5%90%88%E7%A5%9E%E7%A4%BE%EF%BC%88kyo_na_deer_%EF%BC%89.jpg","owner":"common","mapUrl":"https://maps.app.goo.gl/HA51ScyHsCgKGiXq5"},{"id":12,"time":"12:00","place":"午餐 葱屋にょろ助","desc":"先斗町店。","image":"https://img.lavietaste.com/rcmd/1c2f94ac56e5104b81443e151ffb518d_s.jpg","owner":"common","mapUrl":"https://maps.app.goo.gl/mVBTWfjbDRXeM1BF6"},{"id":13,"time":"10:30","place":"平等寺","desc":"因幡堂。（如果有時間可以先去）","image":"https://hk.wamazing.com/media/wp-content/uploads/sites/5/2023/08/byodoin_AU-1-eyecatch.jpg","owner":"common","mapUrl":"https://maps.app.goo.gl/mgPc3Xy3E4QzcDBx8"},{"id":14,"time":"16:00","place":"伏見稻荷神社","desc":"千本鳥居。（有時間再去）","image":"https://unicorntw.com/wp-content/uploads/2014/12/167.jpg","owner":"common","mapUrl":"https://maps.app.goo.gl/sWf8mU27Qzu9csP18"},{"id":15,"time":"13:00","place":"清水寺 &二三年版","desc":"夕陽。","image":"https://mediaim.expedia.com/destination/1/3bc76a96d16aed5e1f00c3a30a815b11.jpg","owner":"common","mapUrl":"https://maps.app.goo.gl/Km5ia96RRxGhY9Ab7"},{"id":16,"time":"20:00","place":"梅田","desc":"晚餐or購物","image":"https://tw.wamazing.com/media/wp-content/uploads/sites/4/2024/10/762_osakaumeda_pixta_76974546_M-853x569.jpg","owner":"common","mapUrl":""},{"id":1764199968519,"time":"20:00","place":"天王寺公園市集","desc":"聖誕市集 in 大阪 TEN-SHIBA","image":"https://www.fashion-press.net/img/news/138827/Kr8.jpg","owner":"common","mapUrl":"https://maps.app.goo.gl/rpt4wdHo3wE7zxDC8"}],
@@ -329,7 +330,8 @@
             const [packingItems, setPackingItems] = useState(() => JSON.parse(localStorage.getItem('packingItems_v10')) || [
                 {id: 101, text: "✅ 證件與文件類", isHeader: true}, {id: 102, text: "護照（效期6個月以上）(切記)", checked: false}, {id: 103, text: "機票 / 電子機票確認信", checked: false}, {id: 104, text: "Visit Japan Web", checked: false}, {id: 105, text: "飯店訂房資訊", checked: false}, {id: 106, text: "交通票券（ICOCA）", checked: false}, {id: 201, text: "💴 金錢與支付工具", isHeader: true}, {id: 202, text: "現金日圓", checked: false}, {id: 203, text: "信用卡", checked: false}, {id: 301, text: "📱 手機與網路", isHeader: true}, {id: 302, text: "eSIM", checked: false}, {id: 303, text: "充電器 / 行動電源", checked: false}, {id: 401, text: "🧳 衣物與生活用品", isHeader: true}, {id: 402, text: "好走的鞋", checked: false}, {id: 403, text: "外套 / 傘", checked: false}, {id: 404, text: "衣物", checked: false}, {id: 407, text: "藥品", checked: false}, {id: 501, text: "🛍 購物與退稅", isHeader: true}, {id: 502, text: "護照（退稅）", checked: false}, {id: 503, text: "購物袋", checked: false}
             ]);
-            const [payType, setPayType] = useState('現金'); // '現金' or '信用卡'
+
+            const [payType, setPayType] = useState('現金'); 
             const [showSettings, setShowSettings] = useState(false);
             const [userApiKey, setUserApiKey] = useState(getApiKey());
             const [tempKey, setTempKey] = useState('');
@@ -438,7 +440,8 @@
                 if (!newPhrase.zh) return alert('請先輸入中文');
                 setIsTranslating(true);
                 try {
-                    const prompt = `You are a Japanese translator. Translate "${newPhrase.zh}" to Japanese, Romaji, and Chinese homophone. Return JSON keys: "jp", "romaji", "note".`;
+                    // Updated prompt to include Zhuyin
+                    const prompt = `You are a Japanese translator for Taiwanese travelers. Translate "${newPhrase.zh}" to Japanese, Romaji, and Chinese homophone (using Chinese characters and Bopomofo/Zhuyin for pronunciation aid). Return JSON keys: "jp", "romaji", "note".`;
                     const result = await callGemini(prompt);
                     const data = JSON.parse(result.replace(/```json|```/g, '').trim());
                     setNewPhrase(prev => ({ ...prev, jp: data.jp, romaji: data.romaji, note: data.note }));
@@ -604,10 +607,7 @@
                     const prompt = `Write a short guide for "${viewingSpot.place}" in Kyoto/Osaka. Include interesting story, "必吃" food, "必買" souvenir. Traditional Chinese.`;
                     const text = await callGemini(prompt);
                     updateSpot({ ...viewingSpot, desc: text });
-                } catch (e) { 
-                    if(e.message === "NO_KEY") alert("請先在首頁設定 API Key");
-                    else alert('AI 錯誤'); 
-                } finally { setIsGenerating(false); }
+                } catch { alert('AI Error'); } finally { setIsGenerating(false); }
             };
             const openMap = (e, spot) => {
                 e.stopPropagation();
@@ -801,7 +801,7 @@
                 <div className="p-4 pb-24">
                      <div className="flex justify-between items-center mb-6"><h1 className="text-2xl font-bold text-[#4A3B32]">購物清單</h1><button onClick={() => setIsAdding(true)} className="text-sm bg-[#C04829] text-white px-4 py-2 rounded-full shadow-lg">+ 新增店家</button></div>
                     <div className="grid grid-cols-2 gap-4">{list.map(store => (
-                        <SwipeItem key={store.id} onAction={() => setList(list.filter(s => s.id !== store.id))}>
+                        <SwipeItem key={store.id} onDelete={() => setList(list.filter(s => s.id !== store.id))}>
                             <div onClick={() => setActiveStore(store)} className="rounded-2xl overflow-hidden shadow-sm border border-[#E8D5B5]/50 group h-full bg-white relative">
                                 <div className="h-28 bg-[#FAFAF5] relative">{store.img ? <img src={store.img} className="w-full h-full object-cover" /> : <div className="w-full h-full flex items-center justify-center text-[#E8D5B5]"><Icon name="image" /></div>}</div>
                                 
@@ -871,13 +871,6 @@
                     <div className="bg-white rounded-3xl p-6 shadow-sm border border-[#E8D5B5]/50 mb-6">
                         <div className="flex justify-between items-end mb-4"><span className="text-sm text-[#8C7B70]">輸入金額 (¥)</span><div className="text-right"><div className="text-3xl font-bold text-[#4A3B32]">{amount || 0}</div><div className="text-xs text-[#C04829]">≈ NT$ {Math.floor((amount||0) * EXCHANGE_RATE)}</div></div></div>
                         <div className="flex gap-2 mb-4 overflow-x-auto no-scrollbar pb-1">{cats.map(c => { const colors = CAT_COLORS[c]; const isSelected = cat === c; return (<button key={c} onClick={() => setCat(c)} className={`px-4 py-2 rounded-xl text-sm font-bold transition-all border ${isSelected ? 'shadow-md scale-105' : 'border-transparent bg-[#FAFAF5] text-[#8C7B70]'}`} style={isSelected ? { backgroundColor: colors.bg, color: colors.text, borderColor: colors.border } : {}}>{c}</button>); })}</div>
-                        
-                        {/* Payment Method Toggle */}
-                        <div className="flex gap-2 mb-4">
-                            <button onClick={() => setPayType('現金')} className={`flex-1 py-2 rounded-xl text-sm font-bold transition-all border ${payType === '現金' ? 'bg-[#4A3B32] text-white' : 'bg-white text-[#8C7B70] border-[#E8D5B5]'}`}>💴 現金</button>
-                            <button onClick={() => setPayType('信用卡')} className={`flex-1 py-2 rounded-xl text-sm font-bold transition-all border ${payType === '信用卡' ? 'bg-[#4A3B32] text-white' : 'bg-white text-[#8C7B70] border-[#E8D5B5]'}`}>💳 信用卡</button>
-                        </div>
-
                         <div className="grid grid-cols-4 gap-2"><input type="number" inputMode="decimal" value={amount} onChange={e => setAmount(e.target.value)} className="col-span-4 p-3 bg-[#FAFAF5] rounded-xl outline-none font-bold text-lg" placeholder="金額" /><input type="text" value={note} onChange={e => setNote(e.target.value)} className="col-span-3 p-3 bg-[#FAFAF5] rounded-xl outline-none" placeholder="備註..." /><button onClick={addExpense} className="col-span-1 bg-[#C04829] text-white rounded-xl flex items-center justify-center shadow-lg"><Icon name="plus" /></button></div>
                     </div>
                     
@@ -886,7 +879,7 @@
                         {cats.map(c => (<button key={c} onClick={() => setFilterCat(c)} className={`px-3 py-1 rounded-full text-xs font-bold border ${filterCat === c ? 'bg-[#C04829] text-white' : 'bg-white text-[#8C7B70] border-[#E8D5B5]'}`}>{c}</button>))}
                     </div>
 
-                    <div className="space-y-3"><div className="flex justify-between text-xs text-[#8C7B70] px-2"><span>{filterCat === 'All' ? '總列表' : `${filterCat}類列表`}</span><span>總計 ¥{total.toLocaleString()}</span></div>{filteredExpenses.map(e => { const colors = CAT_COLORS[e.cat] || { bg: '#f3f4f6', text: '#374151', border: '#e5e7eb' }; return (<SwipeItem key={e.id} onAction={() => deleteExpense(e.id)}><div className="flex justify-between items-center p-4"><div className="flex items-center gap-3"><div className="w-10 h-10 rounded-full flex items-center justify-center font-bold text-xs border" style={{ backgroundColor: colors.bg, color: colors.text, borderColor: colors.border }}>{e.cat}</div><div><div className="text-[#4A3B32] font-bold">{e.note || e.cat}</div><div className="text-xs text-[#8C7B70]">{e.date} • {e.method === '信用卡' ? '💳' : '💴'}</div></div></div><div className="text-right"><div className="font-bold text-[#4A3B32]">¥{e.amount}</div><div className="text-[10px] text-[#8C7B70]">NT${Math.floor(e.amount * EXCHANGE_RATE)}</div></div></div></SwipeItem>); })}</div>
+                    <div className="space-y-3"><div className="flex justify-between text-xs text-[#8C7B70] px-2"><span>{filterCat === 'All' ? '總列表' : `${filterCat}類列表`}</span><span>總計 ¥{total.toLocaleString()}</span></div>{filteredExpenses.map(e => { const colors = CAT_COLORS[e.cat] || { bg: '#f3f4f6', text: '#374151', border: '#e5e7eb' }; return (<SwipeItem key={e.id} onDelete={() => deleteExpense(e.id)}><div className="flex justify-between items-center p-4"><div className="flex items-center gap-3"><div className="w-10 h-10 rounded-full flex items-center justify-center font-bold text-xs border" style={{ backgroundColor: colors.bg, color: colors.text, borderColor: colors.border }}>{e.cat}</div><div><div className="text-[#4A3B32] font-bold">{e.note || e.cat}</div><div className="text-xs text-[#8C7B70]">{e.date} • {e.method === '信用卡' ? '💳' : '💴'}</div></div></div><div className="text-right"><div className="font-bold text-[#4A3B32]">¥{e.amount}</div><div className="text-[10px] text-[#8C7B70]">NT${Math.floor(e.amount * EXCHANGE_RATE)}</div></div></div></SwipeItem>); })}</div>
                 </div>
             );
         };
@@ -917,10 +910,10 @@
                     <div className="space-y-2">
                         {items.map(item => (
                             item.isHeader ? 
-                            <SwipeItem key={item.id} onAction={() => handleDelete(item.id)}>
+                            <SwipeItem key={item.id} onDelete={() => handleDelete(item.id)}>
                                 <div className="p-2 font-bold text-[#C04829] text-sm border-t border-[#E8D5B5]/30 bg-[#FAFAF5]">{item.text}</div>
                             </SwipeItem> :
-                            <SwipeItem key={item.id} onAction={() => handleDelete(item.id)}>
+                            <SwipeItem key={item.id} onDelete={() => handleDelete(item.id)}>
                                 <div onClick={() => toggle(item.id)} className="flex items-center cursor-pointer p-4">
                                     <div className={`w-6 h-6 rounded-lg border flex items-center justify-center mr-3 transition-colors ${item.checked ? 'bg-[#7D8A58] border-[#7D8A58]' : 'border-[#D68C45]/50'}`}>{item.checked && <Icon name="check" size={14} className="text-white" />}</div>
                                     <span className={`font-bold transition-colors ${item.checked ? 'text-gray-300 line-through' : 'text-[#4A3B32]'}`}>{item.text}</span>
