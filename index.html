@@ -87,7 +87,6 @@
         const { useState, useEffect, useRef, useMemo } = React;
 
         // --- GEMINI API SETUP ---
-        // FIX: Define getApiKey correctly in the global scope
         const getApiKey = () => localStorage.getItem('gemini_api_key') || "";
 
         const callGemini = async (prompt) => {
@@ -303,14 +302,15 @@
         const App = () => {
             const [activeTab, setActiveTab] = useState('home');
             
-            // --- DATA (Updated V23) ---
-            const [itinerary, setItinerary] = useState(() => JSON.parse(localStorage.getItem('itinerary_v23')) || {
+            // --- DATA (Updated V24) ---
+            const [itinerary, setItinerary] = useState(() => JSON.parse(localStorage.getItem('itinerary_v24')) || {
                 "11/28":[{"id":1,"time":"14:40","place":"搭乘班機 IT 212","desc":"時間:1440-1755。\n記得不要延誤班機喔~","image":"https://static.tigerairtw.com/www/events/TTW10anniversary/images/kv_airplane.png","owner":"common","mapUrl":"https://maps.app.goo.gl/w7cmbhnue9GKehcx6"},{"id":2,"time":"18:30","place":"大阪 Check in","desc":"預計出關時間→ 18:30，抵達市區 (19:30)。","image":"https://www.bring-you.info/imgs/2017/12/shin-osaka-40.jpg","owner":"common","mapUrl":"https://maps.app.goo.gl/EbFzvx4KZZv8CtVW9"},{"id":3,"time":"21:00","place":"晚餐 焼肉 麓の宮","desc":"必吃燒肉！","image":"https://tw.tabiiro.travel/lpimg/gourmet/314114/main/img5.jpg","owner":"common","mapUrl":"https://maps.app.goo.gl/WhhLHMjSBLjfDkX9A"},{"id":4,"time":"22:30","place":"心齋橋逛街","desc":"藥妝、零食採買。","image":"https://cdn.zekkei-japan.jp/images/areas/8bb3598e86006c8a2a283f36e14a0650.jpg","owner":"common","mapUrl":"https://maps.app.goo.gl/L83oHjpVYEQrrs3H6"}],
                 "11/29":[{"id":11,"time":"09:00","place":"下鴨神社","desc":"# 【世界遺產・京都古老神域】","image":"https://letsgokyoto.com/wp-content/uploads/2023/09/%E6%B2%B3%E5%90%88%E7%A5%9E%E7%A4%BE%EF%BC%88kyo_na_deer_%EF%BC%89.jpg","owner":"common","mapUrl":"https://maps.app.goo.gl/HA51ScyHsCgKGiXq5"},{"id":12,"time":"12:00","place":"午餐 葱屋にょろ助","desc":"先斗町店。","image":"https://img.lavietaste.com/rcmd/1c2f94ac56e5104b81443e151ffb518d_s.jpg","owner":"common","mapUrl":"https://maps.app.goo.gl/mVBTWfjbDRXeM1BF6"},{"id":13,"time":"10:30","place":"平等寺","desc":"因幡堂。（如果有時間可以先去）","image":"https://hk.wamazing.com/media/wp-content/uploads/sites/5/2023/08/byodoin_AU-1-eyecatch.jpg","owner":"common","mapUrl":"https://maps.app.goo.gl/mgPc3Xy3E4QzcDBx8"},{"id":14,"time":"16:00","place":"伏見稻荷神社","desc":"千本鳥居。（有時間再去）","image":"https://unicorntw.com/wp-content/uploads/2014/12/167.jpg","owner":"common","mapUrl":"https://maps.app.goo.gl/sWf8mU27Qzu9csP18"},{"id":15,"time":"13:00","place":"清水寺 &二三年版","desc":"夕陽。","image":"https://mediaim.expedia.com/destination/1/3bc76a96d16aed5e1f00c3a30a815b11.jpg","owner":"common","mapUrl":"https://maps.app.goo.gl/Km5ia96RRxGhY9Ab7"},{"id":16,"time":"20:00","place":"梅田","desc":"晚餐or購物","image":"https://tw.wamazing.com/media/wp-content/uploads/sites/4/2024/10/762_osakaumeda_pixta_76974546_M-853x569.jpg","owner":"common","mapUrl":""},{"id":1764199968519,"time":"20:00","place":"天王寺公園市集","desc":"聖誕市集 in 大阪 TEN-SHIBA","image":"https://www.fashion-press.net/img/news/138827/Kr8.jpg","owner":"common","mapUrl":"https://maps.app.goo.gl/rpt4wdHo3wE7zxDC8"}],
                 "11/30":[{"id":21,"time":"10:00","place":"中古堂麻糬","desc":"現搗麻糬。\n嘿~呀~嘿~呀","image":"https://rimage.gnst.jp/livejapan.com/public/article/detail/a/20/00/a2000330/img/zh-tw/a2000330_parts_5e281d9d46037.jpg","owner":"common","mapUrl":"https://maps.app.goo.gl/eUMNTqgNj18UJTZU8"},{"id":22,"time":"11:00","place":"奈良公園","desc":"與鹿鹿總裁開會","image":"https://image.cdn-eztravel.com.tw/ijXlVR4ERQEZFzDJncxZBhR_3oD2wcH-zpV0Eeidwgs/g:ce/aHR0cHM6Ly92YWNhdGlvbi5jZG4tZXp0cmF2ZWwuY29tLnR3L2ltZy9WRFIvSlBfMTU4OTc5MDA1Mi5qcGc.jpg","owner":"common","mapUrl":"https://maps.app.goo.gl/XUN6Z67VyEHDzY3L7"},{"id":23,"time":"13:00","place":"水谷茶屋","desc":"茶屋。\n休息小憩","image":"https://tenjo.tw/wp-content/uploads/collage-67.jpg","owner":"common","mapUrl":"https://maps.app.goo.gl/HhwGP765VVh9iZUi6"},{"id":24,"time":"13:30","place":"春日大社","desc":"本殿（禦正殿）->免費參觀\n國寶殿 -> 500 日圓\n紫藤花園 -> 500 日圓","image":"https://tw.wamazing.com/media/wp-content/uploads/sites/4/2023/11/kasugataisha_eyecatch_pixta_95372544_M.jpg","owner":"common","mapUrl":"https://maps.app.goo.gl/Z1Bikje7FYqoYPTP7"},{"id":25,"time":"16:00","place":"生駒山上遊樂園","desc":"傍晚去看夕陽就好。","image":"https://res.klook.com/image/upload/c_crop,h_800,w_1280,x_0,y_10,z_0.5/w_750,h_469,c_fill,q_85/w_80,x_15,y_15,g_south_west,l_Klook_water_br_trans_yhcmh3/activities/b5t01dn87japgrpyvnil.jpg","owner":"common","mapUrl":"https://maps.app.goo.gl/wfvy914kGv8iK7KY7"},{"id":1764199753036,"time":"20:00","place":"日本橋、難波逛街","desc":"就是到處跑跑，宅泡聚集地","image":"https://wp-odai.wamazing.com/media/wp-content/uploads/sites/2/2025/01/osakanipponbashi_pixta_92154927_M.jpg","owner":"common","mapUrl":"https://maps.app.goo.gl/6tmxkscPyFku3j8H7"}],
                 "12/01":[{"id":1764199780893,"time":"08:00","place":"採購","desc":"點擊編輯詳情","image":"","owner":"common","mapUrl":""},{"id":1764199865385,"time":"10:00","place":"美國村","desc":"這裡可以古著挖寶","image":"https://www.e-japannavi.com/syuyu/osaka/images/shinsaibashi_america_img700465_05.jpg","owner":"common","mapUrl":"https://maps.app.goo.gl/KoRVnsMkYcb1Y6Kp7"},{"id":1764199876034,"time":"13:00","place":"梅田","desc":"點擊編輯詳情","image":"","owner":"common","mapUrl":""},{"id":1764199906578,"time":"08:30","place":"木津市場","desc":"這裡的生魚片新鮮的","image":"https://i0.wp.com/poliluvtravel.com/wp-content/uploads/2020/03/kizu-ichiba_1_IMG_3650.jpg","owner":"common","mapUrl":"https://maps.app.goo.gl/yVW8Fx8GGSZEaUMx7"},{"id":1764229893864,"time":"00:00","place":"Kirby Café Osaka","desc":"有喬到位置就去\n","image":"https://kirbycafe.jp/cafe/osaka/imgs/img-shop-visual.jpg","owner":"common","mapUrl":""},{"id":1764231413366,"time":"14:00","place":"goldy-銀飾","desc":"","image":"https://goldy.jp/wp-content/uploads/2022/09/c64f358b8ba1ae634160b5c2b2768b72-1024x683.jpg","owner":"common","mapUrl":"https://maps.app.goo.gl/P7Cor7Afkx2qrn6L7"}],
                 "12/02":[{"id":1764200004798,"time":"07:00","place":"早餐","desc":"找間日式飯糰來吃","image":"","owner":"xu","mapUrl":""},{"id":1764200022185,"time":"10:00","place":"臨空城outlet","desc":"稍微逛一下有沒有漏買的","image":"https://rinkunoyu.jp/wp/wp-content/uploads/2023/09/593bcc8186aa98657c5346a8a4748ae8.jpg","owner":"xu","mapUrl":"https://maps.app.goo.gl/EjKi9zMoDumxDWjCA"},{"id":1764200046566,"time":"13:00","place":"機場check in","desc":"先去報到探探路，順便在機場熟悉路線","image":"https://www.kansai-airport.or.jp/static/images/map/index-01_tw.png","owner":"xu","mapUrl":"https://maps.app.goo.gl/yqHyhAZE5QDLKveS8"},{"id":1764200064927,"time":"15:25","place":"關西機場T2","desc":"起飛～拜拜大阪","image":"https://static.tigerairtw.com/www/events/TTW10anniversary/images/kv_airplane.png","owner":"xu","mapUrl":""},{"id":1764200290509,"time":"09:00","place":"勝尾寺","desc":"","image":"https://res.klook.com/image/upload/w_750,h_469,c_fill,q_85/w_80,x_15,y_15,g_south_west,l_Klook_water_br_trans_yhcmh3/activities/mmnqsbcymiztuwzrvyml.jpg","owner":"zhen","mapUrl":"https://maps.app.goo.gl/GAfzAbfFDmv7HHe39"},{"id":1764200316620,"time":"00:00","place":"梅田","desc":"點擊編輯詳情","image":"","owner":"zhen","mapUrl":""},{"id":1764200338780,"time":"13:00","place":"扭蛋之森","desc":"點擊編輯詳情","image":"https://content.fun-japan.jp/renewal-prod/cms/articles/content/A02l-9IMG9140jpg_2022-07-15-12-54-08.jpg","owner":"zhen","mapUrl":"https://maps.app.goo.gl/ycto7QsZ4QWMyPtCA"},{"id":1764200380320,"time":"15:00","place":"梅田茶屋町店","desc":"應該有下午茶吧","image":"https://47life.tw/wp-content/uploads/2019/11/20241007-vfehq.jpg","owner":"zhen","mapUrl":"https://maps.app.goo.gl/C44whEoqpKMqnaXKA"},{"id":1764200429973,"time":"17:00","place":"梅田藍天大樓","desc":"點擊編輯詳情","image":"https://res.klook.com/images/fl_lossy.progressive,q_65/c_fill,w_1620,h_1080/w_80,x_15,y_15,g_south_west,l_Klook_water_br_trans_yhcmh3/activities/jiopyvnamz3tlbufhfsn/%E6%A2%85%E7%94%B0%E8%97%8D%E5%A4%A9%E5%A4%A7%E5%BB%88%E7%A9%BA%E4%B8%AD%E5%BA%AD%E5%9C%9B%E5%8F%B0%E9%96%80%E7%A5%A8-Klook%E5%AE%A2%E8%B7%AF.jpg","owner":"zhen","mapUrl":"https://maps.app.goo.gl/DcuKCZ4QKo9BPBKT9"}],
-                "12/03":[{"id":1764200465273,"time":"06:00","place":"起床","desc":"幹我一定爬不起來","image":"","owner":"xu","mapUrl":""},{"id":1764200502470,"time":"08:00","place":"鴻海","desc":"一定會被折磨得很慘","image":"","owner":"xu","mapUrl":""},{"id":1764200524246,"time":"17:30","place":"下班","desc":"最好是回來第一天都沒事蛤","image":"","owner":"xu","mapUrl":""},{"id":1764200553290,"time":"20:00","place":"去照顧踏踏","desc":"那隻貓一定想說為什麼每天都看得到我","image":"","owner":"xu","mapUrl":""},{"id":1764200587523,"time":"09:00","place":"下鴨神社","desc":"補買御守 御馬","image":"https://img.cloudimg.in/uploads/shops/3806/products/ef/ef5b0852e76e7636f26ce91509840136.jpg","owner":"zhen","mapUrl":"https://maps.app.goo.gl/HA51ScyHsCgKGiXq5"},{"id":1764200620100,"time":"13:00","place":"麵屋","desc":"要現場排隊","image":"","owner":"zhen","mapUrl":""}],"12/04":[{"id":1764200664002,"time":"08:00","place":"鴻海","desc":"上班啦幹","image":"","owner":"xu","mapUrl":""},{"id":1764200716751,"time":"09:00","place":"梅田","desc":"City Terminal by Plaza Premium 寄放行李","image":"","owner":"zhen","mapUrl":""},{"id":1764200741690,"time":"00:00","place":"Onigiri Gorichan","desc":"可以去吃","image":"https://arne.media/uploads/2025/01/A3C87EE8-A354-4EEE-AC98-44B57359E03F-675x506.jpg","owner":"zhen","mapUrl":""},{"id":1764200789847,"time":"12:00","place":"逛百貨","desc":"誰知道你們逛哪一棟","image":"","owner":"zhen","mapUrl":""},{"id":1764200828569,"time":"15:20","place":"梅田","desc":"回頭拿行李，準備趕飛機","image":"","owner":"zhen","mapUrl":""},{"id":1764200894083,"time":"19:55","place":"關西機場","desc":"準備起飛，大阪行結束","image":"https://static.tigerairtw.com/www/events/TTW10anniversary/images/kv_airplane.png","owner":"zhen","mapUrl":""}]
+                "12/03":[{"id":1764200465273,"time":"06:00","place":"起床","desc":"幹我一定爬不起來","image":"","owner":"xu","mapUrl":""},{"id":1764200502470,"time":"08:00","place":"鴻海","desc":"一定會被折磨得很慘","image":"","owner":"xu","mapUrl":""},{"id":1764200524246,"time":"17:30","place":"下班","desc":"最好是回來第一天都沒事蛤","image":"","owner":"xu","mapUrl":""},{"id":1764200553290,"time":"20:00","place":"去照顧踏踏","desc":"那隻貓一定想說為什麼每天都看得到我","image":"","owner":"xu","mapUrl":""},{"id":1764200587523,"time":"09:00","place":"下鴨神社","desc":"補買御守 御馬","image":"https://img.cloudimg.in/uploads/shops/3806/products/ef/ef5b0852e76e7636f26ce91509840136.jpg","owner":"zhen","mapUrl":"https://maps.app.goo.gl/HA51ScyHsCgKGiXq5"},{"id":1764200620100,"time":"13:00","place":"麵屋","desc":"要現場排隊","image":"","owner":"zhen","mapUrl":""}],
+                "12/04":[{"id":1764200664002,"time":"08:00","place":"鴻海","desc":"上班啦幹","image":"","owner":"xu","mapUrl":""},{"id":1764200716751,"time":"09:00","place":"梅田","desc":"City Terminal by Plaza Premium 寄放行李","image":"","owner":"zhen","mapUrl":""},{"id":1764200741690,"time":"00:00","place":"Onigiri Gorichan","desc":"可以去吃","image":"https://arne.media/uploads/2025/01/A3C87EE8-A354-4EEE-AC98-44B57359E03F-675x506.jpg","owner":"zhen","mapUrl":""},{"id":1764200789847,"time":"12:00","place":"逛百貨","desc":"誰知道你們逛哪一棟","image":"","owner":"zhen","mapUrl":""},{"id":1764200828569,"time":"15:20","place":"梅田","desc":"回頭拿行李，準備趕飛機","image":"","owner":"zhen","mapUrl":""},{"id":1764200894083,"time":"19:55","place":"關西機場","desc":"準備起飛，大阪行結束","image":"https://static.tigerairtw.com/www/events/TTW10anniversary/images/kv_airplane.png","owner":"zhen","mapUrl":""}]
             });
             const [checkInData, setCheckInData] = useState(() => JSON.parse(localStorage.getItem('checkin_v9')) || {
                 xu: { depart: "臺灣虎航 T212\n14:40 TPE 台灣桃園國際機場T1\n17:55 KIX 關西國際機場 T1", departImg: "", back: "日本樂桃航空 MM027\n航班資訊\n15:25,關西國際機場T2\n17:55,台灣桃園國際機場1 T1", backImg: "https://photos.fife.usercontent.google.com/pw/AP1GczMnWzMYApLQWyqs9RfoeMQa0tpMQTftSHVxKphyYSuT4fZkpCnJEZN43Q=w964-h702-s-no-gm?authuser=0", hotel: "Sunshine Tower\n该酒店可在平板电脑上自助入住。\n\n在酒店平板电脑中输入上面的签到代码，然后签入。", hotelImg: "" },
@@ -336,7 +336,7 @@
             const [userApiKey, setUserApiKey] = useState(getApiKey());
             const [tempKey, setTempKey] = useState('');
 
-            useEffect(() => { localStorage.setItem('itinerary_v23', JSON.stringify(itinerary)); }, [itinerary]);
+            useEffect(() => { localStorage.setItem('itinerary_v24', JSON.stringify(itinerary)); }, [itinerary]);
             useEffect(() => { localStorage.setItem('checkin_v9', JSON.stringify(checkInData)); }, [checkInData]);
             useEffect(() => { localStorage.setItem('phrases_v9', JSON.stringify(phrases)); }, [phrases]);
             useEffect(() => { localStorage.setItem('expenses_v6', JSON.stringify(expenses)); }, [expenses]);
@@ -352,7 +352,7 @@
 
             const renderContent = () => {
                 switch(activeTab) {
-                    case 'home': return <Home phrases={phrases} setPhrases={setPhrases} checkInData={checkInData} setCheckInData={setCheckInData} allData={{itinerary, checkInData, phrases, expenses, shoppingList, packingItems}} setShowSettings={setShowSettings} />;
+                    case 'home': return <Home phrases={phrases} setPhrases={setPhrases} checkInData={checkInData} setCheckInData={setCheckInData} allData={{itinerary, checkInData, phrases, expenses, shoppingList, packingItems, apiKey: userApiKey}} setShowSettings={setShowSettings} />;
                     case 'itinerary': return <Itinerary itinerary={itinerary} setItinerary={setItinerary} />;
                     case 'shopping': return <Shopping list={shoppingList} setList={setShoppingList} />;
                     case 'finance': return <Finance expenses={expenses} setExpenses={setExpenses} payType={payType} setPayType={setPayType} />;
@@ -436,12 +436,13 @@
             };
             const handleCheckInChange = (field, val) => { setCheckInData({ ...checkInData, [checkInUser]: { ...checkInData[checkInUser], [field]: val } }); };
             const toggleImgSection = (section) => { setActiveImgSection(activeImgSection === section ? null : section); };
+            
             const handleAITranslate = async () => {
                 if (!newPhrase.zh) return alert('請先輸入中文');
                 setIsTranslating(true);
                 try {
-                    // Updated prompt to include Zhuyin
-                    const prompt = `You are a Japanese translator for Taiwanese travelers. Translate "${newPhrase.zh}" to Japanese, Romaji, and Chinese homophone (using Chinese characters and Bopomofo/Zhuyin for pronunciation aid). Return JSON keys: "jp", "romaji", "note".`;
+                    // Updated prompt: Taiwanese Sor-mimicry style
+                    const prompt = `You are a Japanese translator for Taiwanese travelers. Translate "${newPhrase.zh}" to Japanese, Romaji, and a 'Taiwanese Sor-mimicry' style Chinese homophone (using Chinese characters to approximate the sound funnily, e.g. '阿哩嘎多' for Arigato). Return JSON keys: "jp", "romaji", "note".`;
                     const result = await callGemini(prompt);
                     const data = JSON.parse(result.replace(/```json|```/g, '').trim());
                     setNewPhrase(prev => ({ ...prev, jp: data.jp, romaji: data.romaji, note: data.note }));
@@ -450,6 +451,7 @@
                     else alert('AI 翻譯失敗，請檢查 API Key 或網路'); 
                 } finally { setIsTranslating(false); }
             };
+            
             const openWeather = () => window.open('https://www.jma.go.jp/bosai/forecast/#area_type=offices&area_code=270000', '_blank');
             const handleExport = () => {
                 const dataStr = JSON.stringify(allData);
@@ -502,6 +504,8 @@
                             <Icon name="arrow-right-left" className="text-[#D68C45]" size={20} />
                             <div className="flex-1 bg-[#FAFAF5] rounded-xl px-3 py-2"><div className="text-[10px] text-[#8C7B70] mb-1">TWD 台幣</div><div className="text-xl font-bold text-[#4A3B32]">{Math.floor(jpy * EXCHANGE_RATE)}</div></div>
                         </div>
+                        {/* New Exchange Rate Text */}
+                        <div className="text-right text-[10px] text-gray-400 mt-2 px-2">目前匯率: 1 JPY ≈ {EXCHANGE_RATE} TWD</div>
                     </div>
 
                     <div className="relative z-10">
@@ -801,7 +805,7 @@
                 <div className="p-4 pb-24">
                      <div className="flex justify-between items-center mb-6"><h1 className="text-2xl font-bold text-[#4A3B32]">購物清單</h1><button onClick={() => setIsAdding(true)} className="text-sm bg-[#C04829] text-white px-4 py-2 rounded-full shadow-lg">+ 新增店家</button></div>
                     <div className="grid grid-cols-2 gap-4">{list.map(store => (
-                        <SwipeItem key={store.id} onDelete={() => setList(list.filter(s => s.id !== store.id))}>
+                        <SwipeItem key={store.id} onAction={() => setList(list.filter(s => s.id !== store.id))}>
                             <div onClick={() => setActiveStore(store)} className="rounded-2xl overflow-hidden shadow-sm border border-[#E8D5B5]/50 group h-full bg-white relative">
                                 <div className="h-28 bg-[#FAFAF5] relative">{store.img ? <img src={store.img} className="w-full h-full object-cover" /> : <div className="w-full h-full flex items-center justify-center text-[#E8D5B5]"><Icon name="image" /></div>}</div>
                                 
@@ -871,6 +875,13 @@
                     <div className="bg-white rounded-3xl p-6 shadow-sm border border-[#E8D5B5]/50 mb-6">
                         <div className="flex justify-between items-end mb-4"><span className="text-sm text-[#8C7B70]">輸入金額 (¥)</span><div className="text-right"><div className="text-3xl font-bold text-[#4A3B32]">{amount || 0}</div><div className="text-xs text-[#C04829]">≈ NT$ {Math.floor((amount||0) * EXCHANGE_RATE)}</div></div></div>
                         <div className="flex gap-2 mb-4 overflow-x-auto no-scrollbar pb-1">{cats.map(c => { const colors = CAT_COLORS[c]; const isSelected = cat === c; return (<button key={c} onClick={() => setCat(c)} className={`px-4 py-2 rounded-xl text-sm font-bold transition-all border ${isSelected ? 'shadow-md scale-105' : 'border-transparent bg-[#FAFAF5] text-[#8C7B70]'}`} style={isSelected ? { backgroundColor: colors.bg, color: colors.text, borderColor: colors.border } : {}}>{c}</button>); })}</div>
+                        
+                        {/* Payment Method Toggle - RESTORED */}
+                        <div className="flex gap-2 mb-4">
+                            <button onClick={() => setPayType('現金')} className={`flex-1 py-2 rounded-xl text-sm font-bold transition-all border ${payType === '現金' ? 'bg-[#4A3B32] text-white' : 'bg-white text-[#8C7B70] border-[#E8D5B5]'}`}>💴 現金</button>
+                            <button onClick={() => setPayType('信用卡')} className={`flex-1 py-2 rounded-xl text-sm font-bold transition-all border ${payType === '信用卡' ? 'bg-[#4A3B32] text-white' : 'bg-white text-[#8C7B70] border-[#E8D5B5]'}`}>💳 信用卡</button>
+                        </div>
+
                         <div className="grid grid-cols-4 gap-2"><input type="number" inputMode="decimal" value={amount} onChange={e => setAmount(e.target.value)} className="col-span-4 p-3 bg-[#FAFAF5] rounded-xl outline-none font-bold text-lg" placeholder="金額" /><input type="text" value={note} onChange={e => setNote(e.target.value)} className="col-span-3 p-3 bg-[#FAFAF5] rounded-xl outline-none" placeholder="備註..." /><button onClick={addExpense} className="col-span-1 bg-[#C04829] text-white rounded-xl flex items-center justify-center shadow-lg"><Icon name="plus" /></button></div>
                     </div>
                     
@@ -879,7 +890,7 @@
                         {cats.map(c => (<button key={c} onClick={() => setFilterCat(c)} className={`px-3 py-1 rounded-full text-xs font-bold border ${filterCat === c ? 'bg-[#C04829] text-white' : 'bg-white text-[#8C7B70] border-[#E8D5B5]'}`}>{c}</button>))}
                     </div>
 
-                    <div className="space-y-3"><div className="flex justify-between text-xs text-[#8C7B70] px-2"><span>{filterCat === 'All' ? '總列表' : `${filterCat}類列表`}</span><span>總計 ¥{total.toLocaleString()}</span></div>{filteredExpenses.map(e => { const colors = CAT_COLORS[e.cat] || { bg: '#f3f4f6', text: '#374151', border: '#e5e7eb' }; return (<SwipeItem key={e.id} onDelete={() => deleteExpense(e.id)}><div className="flex justify-between items-center p-4"><div className="flex items-center gap-3"><div className="w-10 h-10 rounded-full flex items-center justify-center font-bold text-xs border" style={{ backgroundColor: colors.bg, color: colors.text, borderColor: colors.border }}>{e.cat}</div><div><div className="text-[#4A3B32] font-bold">{e.note || e.cat}</div><div className="text-xs text-[#8C7B70]">{e.date} • {e.method === '信用卡' ? '💳' : '💴'}</div></div></div><div className="text-right"><div className="font-bold text-[#4A3B32]">¥{e.amount}</div><div className="text-[10px] text-[#8C7B70]">NT${Math.floor(e.amount * EXCHANGE_RATE)}</div></div></div></SwipeItem>); })}</div>
+                    <div className="space-y-3"><div className="flex justify-between text-xs text-[#8C7B70] px-2"><span>{filterCat === 'All' ? '總列表' : `${filterCat}類列表`}</span><span>總計 ¥{total.toLocaleString()}</span></div>{filteredExpenses.map(e => { const colors = CAT_COLORS[e.cat] || { bg: '#f3f4f6', text: '#374151', border: '#e5e7eb' }; return (<SwipeItem key={e.id} onAction={() => deleteExpense(e.id)}><div className="flex justify-between items-center p-4"><div className="flex items-center gap-3"><div className="w-10 h-10 rounded-full flex items-center justify-center font-bold text-xs border" style={{ backgroundColor: colors.bg, color: colors.text, borderColor: colors.border }}>{e.cat}</div><div><div className="text-[#4A3B32] font-bold">{e.note || e.cat}</div><div className="text-xs text-[#8C7B70]">{e.date} • {e.method === '信用卡' ? '💳' : '💴'}</div></div></div><div className="text-right"><div className="font-bold text-[#4A3B32]">¥{e.amount}</div><div className="text-[10px] text-[#8C7B70]">NT${Math.floor(e.amount * EXCHANGE_RATE)}</div></div></div></SwipeItem>); })}</div>
                 </div>
             );
         };
@@ -910,10 +921,10 @@
                     <div className="space-y-2">
                         {items.map(item => (
                             item.isHeader ? 
-                            <SwipeItem key={item.id} onDelete={() => handleDelete(item.id)}>
+                            <SwipeItem key={item.id} onAction={() => handleDelete(item.id)}>
                                 <div className="p-2 font-bold text-[#C04829] text-sm border-t border-[#E8D5B5]/30 bg-[#FAFAF5]">{item.text}</div>
                             </SwipeItem> :
-                            <SwipeItem key={item.id} onDelete={() => handleDelete(item.id)}>
+                            <SwipeItem key={item.id} onAction={() => handleDelete(item.id)}>
                                 <div onClick={() => toggle(item.id)} className="flex items-center cursor-pointer p-4">
                                     <div className={`w-6 h-6 rounded-lg border flex items-center justify-center mr-3 transition-colors ${item.checked ? 'bg-[#7D8A58] border-[#7D8A58]' : 'border-[#D68C45]/50'}`}>{item.checked && <Icon name="check" size={14} className="text-white" />}</div>
                                     <span className={`font-bold transition-colors ${item.checked ? 'text-gray-300 line-through' : 'text-[#4A3B32]'}`}>{item.text}</span>
@@ -944,3 +955,4 @@
     </script>
 </body>
 </html>
+
